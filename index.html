@@ -1,0 +1,743 @@
+<!--
+  FILE: index.html
+  PURPOSE: Single-file interactive portfolio (Chemical Engineer)
+  INSTRUCTIONS:
+    - Save as index.html and open in a modern browser.
+    - Edit the blocks marked with "EDIT HERE" comments to change content.
+    - To use your LinkedIn as reference, paste the summary/html into the ABOUT LINKEDIN block.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Muhammad Umair Khalid — Chemical Engineer</title>
+  <meta name="description" content="Muhammad Umair Khalid — Chemical Engineer. Portfolio: projects, skills, experience." />
+
+  <!-- ====== STYLES: edit colors and fonts below ====== -->
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card: #081226;
+      --muted: #9aa7b2;
+      --accent: #06b6d4;      /* cyan-ish */
+      --accent-2: #7c3aed;    /* purple */
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --text: #e6eef8;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      --radius: 12px;
+    }
+
+    /* --- Basic reset & layout --- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#071226 0%, #081022 60%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior: smooth;
+      line-height:1.45;
+    }
+
+    /* --- Top Nav Bar --- */
+    header.topbar{
+      position:fixed; top:0; left:0; right:0; height:72px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 20px; gap:12px;
+      background: linear-gradient(180deg, rgba(6,6,10,0.55), rgba(6,6,10,0.25));
+      backdrop-filter: blur(6px);
+      z-index:1000;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);
+    }
+    .brand .logo {
+      width:44px; height:44px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid; place-items:center; font-weight:700; color:#031425; font-family:var(--mono); font-size:18px;
+      box-shadow: 0 6px 20px rgba(12,20,30,0.6);
+    }
+    nav.mainnav{
+      display:flex; gap:14px; align-items:center;
+    }
+    nav.mainnav a{
+      color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:8px; font-weight:600; font-size:14px;
+    }
+    nav.mainnav a.active, nav.mainnav a:hover{ color:var(--text); background:var(--glass); }
+
+    /* Hire me button (top-right) */
+    .hire-btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#041023; padding:10px 16px; border-radius:10px; border:none; cursor:pointer; font-weight:700;
+      text-decoration:none; display:inline-flex; gap:8px; align-items:center;
+      box-shadow:0 8px 24px rgba(12,20,30,0.5);
+    }
+    .hire-btn:hover{ transform:translateY(-2px); }
+
+    /* --- Page container and sections --- */
+    main.container{ padding-top:92px; /* for fixed header */ max-width:1200px; margin:0 auto; padding-left:20px; padding-right:20px; }
+
+    section.panel{
+      padding:60px 0;
+      min-height:70vh;
+      display:block;
+    }
+    .panel-inner{ display:grid; grid-template-columns: 1fr 420px; gap:32px; align-items:center; }
+    @media (max-width:980px){
+      .panel-inner{ grid-template-columns:1fr; }
+    }
+
+    /* --- Hero / Home --- */
+    .hero{
+      padding-top:30px;
+      display:flex; align-items:center; gap:24px; min-height:60vh;
+    }
+    .hero-left h1{ margin:0; font-size:clamp(28px, 5vw, 44px); line-height:1.02; letter-spacing:-0.02em; }
+    .hero-left p{ color:var(--muted); margin-top:12px; max-width:70ch; font-size:16px; }
+    .cta-row{ margin-top:18px; display:flex; gap:12px; align-items:center; }
+    .cta{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); padding:10px 14px; border-radius:10px; color:#041023; font-weight:700; text-decoration:none; }
+    .secondary{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); padding:10px 12px; border-radius:10px; text-decoration:none; }
+
+    /* --- Visual column (svg + particle canvas) --- */
+    .visual-wrap{ position:relative; width:65%; height:100vh; display: flex; justify-content: center; background:black; border-radius:16px; overflow:hidden; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.02); }
+    canvas#molecules{ position:absolute; inset:0; width:50%; height:100%; display:block; }
+    .svg-over{ position:absolute; inset:18px; pointer-events:none; }
+
+    /* --- About / LinkedIn area --- */
+    .about-card{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
+    .about-card h3{ margin:6px 0 8px; }
+    .meta-row{ display:flex; gap:12px; color:var(--muted); font-size:14px; margin-top:8px; }
+
+    /* --- Experience timeline --- */
+    .timeline{ display:flex; flex-direction:column; gap:14px; }
+    .timeline-item{ display:flex; gap:14px; align-items:flex-start; padding:12px; border-radius:12px; background:var(--glass-2); border:1px solid rgba(255,255,255,0.02); }
+    .timeline-year{ min-width:84px; text-align:center; color:var(--muted); font-weight:700; }
+    .timeline-body h4{ margin:0; font-size:15px; }
+    .timeline-body p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
+
+    /* --- Skills (circular meters) --- */
+    .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+    .skill{ display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center; padding:16px; border-radius:12px; background:var(--glass); border:1px solid rgba(255,255,255,0.02); }
+    .skill svg{ width:110px; height:110px; transform:rotate(-90deg); }
+    .skill strong{ font-size:14px; display:block; margin-top:6px; }
+
+    /* --- Projects grid --- */
+    .projects-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+    .project-card{ padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.02); cursor:pointer; transition:transform .18s; }
+    .project-card:hover{ transform:translateY(-6px); }
+    .project-card h4{ margin:0; }
+    .project-card p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
+
+    /* --- Contact --- */
+    .contact-grid{ display:grid; gap:12px; grid-template-columns:1fr 320px; align-items:start; }
+    @media (max-width:920px){ .contact-grid{ grid-template-columns:1fr; } }
+    .contact-form{ display:flex; flex-direction:column; gap:10px; }
+    .input, textarea{ padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--text); min-height:44px; }
+    .send-btn{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#041023; padding:10px; border-radius:10px; border:none; cursor:pointer; font-weight:700; }
+
+    /* --- Footer --- */
+    footer.sitefoot{ margin-top:40px; padding:36px 0; color:var(--muted); text-align:center; border-top:1px solid rgba(255,255,255,0.02); }
+
+    /* small helper */
+    .small-muted{ color:var(--muted); font-size:13px; }
+
+    /* Modal (project details) */
+    .modal {
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:2000;
+      background:linear-gradient(rgba(2,6,10,0.6), rgba(2,6,10,0.6));
+    }
+    .modal.open{ display:flex; }
+    .modal-card{ width:min(880px,94%); max-height:90vh; overflow:auto; border-radius:14px; padding:20px; background:linear-gradient(180deg,#04101a,#061426); border:1px solid rgba(255,255,255,0.04); }
+    .close-x{ float:right; cursor:pointer; background:transparent; border:none; color:var(--muted); font-size:18px; }
+
+    /* scroll progress indicator */
+    .progress-wrap { position:fixed; right:14px; bottom:14px; width:46px; height:46px; border-radius:50%; display:grid; place-items:center; z-index:1200; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+    .progress-wrap svg{ width:36px; height:36px; transform:rotate(-90deg); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header class="topbar" role="banner" aria-label="Top navigation">
+    <a href="#home" class="brand" onclick="navHighlight(event,'home')">
+      <div class="logo">MU</div>
+      <div style="line-height:1">
+        <div style="font-weight:700;">Muhammad Umair</div>
+        <div style="font-size:12px;color:var(--muted)">Chemical Engineer</div>
+      </div>
+    </a>
+
+    <nav class="mainnav" role="navigation" aria-label="Main menu">
+      <a href="#home" data-section="home" onclick="navHighlight(event,'home')">Home</a>
+      <a href="#about" data-section="about" onclick="navHighlight(event,'about')">About</a>
+      <a href="#experience" data-section="experience" onclick="navHighlight(event,'experience')">Work Experience</a>
+      <a href="#skills" data-section="skills" onclick="navHighlight(event,'skills')">Skills</a>
+      <a href="#projects" data-section="projects" onclick="navHighlight(event,'projects')">Projects</a>
+      <a href="#contact" data-section="contact" onclick="navHighlight(event,'contact')">Contact</a>
+    </nav>
+
+    <!-- Hire Me button: EDIT EMAIL if needed -->
+    <a class="hire-btn" href="mailto:muhammad.umairkhalid@outlook.com?subject=Opportunity%20to%20Hire%20You" title="Hire Me via email">
+      ✉️ Hire Me
+    </a>
+  </header>
+
+  <!-- ===== MAIN CONTENT (single page sections) ===== -->
+  <main class="container" role="main">
+
+    <!-- ================= HOME (Hero) ================= -->
+    <section id="home" class="panel" aria-label="Home section">
+      <div class="panel-inner hero" >
+        <!-- LEFT: Intro text -->
+        <div class="hero-left">
+          <!-- EDIT: Your name / headline -->
+          <h1>Hi — I’m <span style="background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; color:transparent;">Muhammad Umair Khalid</span></h1>
+          <p>
+            Chemical Engineer with experience in process production, simulation and optimization. I build tools and workflows for safer, efficient chemical processes.
+          </p>
+
+          <!-- CTA buttons -->
+          <div class="cta-row">
+            <a class="cta" href="#projects" onclick="navHighlight(event,'projects')">View Projects</a>
+            <a class="secondary" href="#contact" onclick="navHighlight(event,'contact')">Get in touch</a>
+          </div>
+
+          <!-- Quick highlights -->
+          <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+              <div style="font-weight:700">3+ yrs</div>
+              <div class="small-muted">Production experience</div>
+            </div>
+            <div style="background:var(--glass); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+              <div style="font-weight:700">Bachelors</div>
+              <div class="small-muted">Chemical Engineering</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Visual / Molecule canvas -->
+        <div class="visual-wrap" aria-hidden="true">
+          <!-- Canvas for interactive molecules -->
+          <canvas id="molecules"></canvas>
+          <!-- RIGHT: Visual / Molecule canvas -->
+<div class="visual-wrap">
+  <!-- Intro Video -->
+  <video autoplay muted loop playsinline controls
+    style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+    <source src="intro.mp4" type="video/mp4"/>
+    Your browser does not support the video tag.
+  </video>
+</div>s          
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT (LinkedIn / Summary) ================= -->
+    <section id="about" class="panel" aria-label="About section">
+      <div style="max-width:1100px;margin:auto;">
+        <div style="display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;">
+          <div style="flex:1; min-width:320px;">
+            <div class="about-card">
+              <h3>About / Professional Summary</h3>
+
+              <!-- EDIT HERE: Paste a short paragraph from your LinkedIn or summary.
+                   Replace the placeholder text below with your LinkedIn summary.
+                   Example: "I am a chemical engineer with experience in production, process optimization..."
+              -->
+              <p id="linkedin-summary">
+                <!-- Placeholder summary - EDIT this block -->
+                Chemical Engineer with nearly 3+ years of production and process design experience in the chemical manufacturing sector. Currently Junior Manager – Production at Futehally Chemicals (Unilever third-party), I lead a 40-member team, optimize powder technology operations, and drive cost-saving initiatives through process innovation and resource efficiency. Skilled in process optimization, DCS operations, and SOP development, with a proven record of commissioning new equipment and improving productivity.
+              </p>
+
+              <!-- CONTACT & QUICK STATS -->
+              <div class="meta-row" style="margin-top:12px;">
+                <div><strong>Location</strong><div class="small-muted">Karachi, Pakistan</div></div>
+                <div><strong>Experience</strong><div class="small-muted">~3 years</div></div>
+                <div><strong>Availability</strong><div class="small-muted">Open to work</div></div>
+              </div>
+
+              <!-- EDIT: Add LinkedIn link -->
+              <div style="margin-top:12px">
+                <a href="https://www.linkedin.com/in/umair123" id="linkedin-link" style="color:var(--accent); text-decoration:none;">LinkedIn profile: https://www.linkedin.com/in/umair123 </a>
+              </div> 
+
+            </div>
+          </div>
+
+          <!-- Right column: Quick highlights or resume card -->
+          <div style="width:360px;">
+            <div class="about-card" style="display:flex;flex-direction:column;gap:8px;">
+              <h4 style="margin:0">Resume</h4>
+              <div class="small-muted">Quick snapshot</div>
+              <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Optimzation</div>
+                </div>
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Simulations</div>
+                </div>
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Cost-savings</div>
+                </div>
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Process Improvements</div>
+                </div>
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Process Saftey</div>
+                </div>
+                <div style="background:var(--glass); padding:10px 12px; border-radius:10px;">
+                  <div style="font-weight:700">Quality Control</div>
+                </div>
+              </div>
+              <a class="cta" href="#contact" onclick="navHighlight(event,'contact')" style="display:inline-block; margin-top:10px;">Contact</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WORK EXPERIENCE (Interactive timeline) ================= -->
+    <section id="experience" class="panel" aria-label="Work Experience">
+      <div>
+        <h2>Work Experience</h2>
+        <p class="small-muted">Click an entry to expand details</p>
+
+        <div class="timeline" style="margin-top:14px;">
+          <!-- EDIT / ADD timeline items in the JS below (experienceData array) -->
+          <!-- Placeholder items will be populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS (Animated rings) ================= -->
+    <section id="skills" class="panel" aria-label="Skills">
+      <h2>Skills</h2>
+      <p class="small-muted">skill meterics</p>
+
+      <div class="skills-grid" style="margin-top:12px;">
+        <!-- skill cards populated by JS -->
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS (Grid + modals) ================= -->
+    <section id="projects" class="panel" aria-label="Projects">
+      <h2>Projects</h2>
+      <p class="small-muted">Click any project to view details</p>
+
+      <div class="projects-grid" style="margin-top:12px;">
+        <!-- project cards populated by JS -->
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="panel" aria-label="Contact">
+      <h2>Contact</h2>
+      <div class="contact-grid" style="margin-top:12px;">
+        <div>
+          <p class="small-muted">Want to discuss a role, collaboration, or project?</p>
+          <div style="margin-top:8px; background:var(--glass); padding:12px; border-radius:12px;">
+            <div style="font-weight:700">Email</div>
+            <div><a href="mailto:muhammad.umairkhalid@outlook.com" style="color:var(--accent)">muhammad.umairkhalid@outlook.com</a></div>
+            <div style="margin-top:8px;" class="small-muted">Or use the quick contact form</div>
+          </div>
+
+          <!-- Social / Links: edit as needed -->
+          <div style="margin-top:12px; display:flex; gap:10px;">
+            <a href="#" style="color:var(--muted); text-decoration:none;">GitHub</a>
+            <a href="#" style="color:var(--muted); text-decoration:none;">Research / Papers</a>
+            <a href="#" style="color:var(--muted); text-decoration:none;">LinkedIn</a>
+          </div>
+        </div>
+
+        <div>
+          <form id="contactForm" class="contact-form" onsubmit="handleContact(event)">
+            <input class="input" name="name" placeholder="Your name" required />
+            <input class="input" name="email" placeholder="Your email" required />
+            <textarea class="input" name="message" rows="6" placeholder="Brief message..." required></textarea>
+            <!-- NOTE: This uses a mailto fallback. For production use Formspree/Getform or a server endpoint. -->
+            <button type="submit" class="send-btn">Send message</button>
+            <div id="contactResult" class="small-muted" style="margin-top:8px;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+ssss
+    <!-- Footer -->
+    <footer class="sitefoot">
+      © <span id="year"></span> Muhammad Umair Khalid
+    </footer>
+
+  </main>
+
+  <!-- ===== PROJECT MODAL ===== -->
+  <div id="projectModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <button class="close-x" onclick="closeModal()">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- scroll progress + top button -->
+  <div class="progress-wrap" title="Scroll progress" aria-hidden="true">
+    <svg viewBox="0 0 36 36">
+      <path id="progressPath" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke="#fff" stroke-width="2" stroke-opacity="0.12"></path>
+      <path id="progressPathActive" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke="url(#gProgress)" stroke-width="2" stroke-linecap="round"></path>
+      <defs>
+        <linearGradient id="gProgress" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- ===== SCRIPTS: interactive logic ===== -->
+  <script>
+    /********************************************************
+     *  EDITABLE DATA BLOCKS
+     *
+     *  1) experienceData -> edit/add your work experience items
+     *  2) skillsData -> name + percent for skill rings
+     *  3) projectsData -> your projects (title, short, details, link)
+     *  4) Update LinkedIn link & summary above (in HTML)
+     ********************************************************/
+
+    // ===== 1) WORK EXPERIENCE: Edit this array to add your positions =====
+    const experienceData = [
+      {
+        company: "Futehally Chemical Pvt. Ltd.",
+        role: "Junior Manager (Powder Production Technology)",
+        when: "July 2023 — September 2023",
+        location: "Karachi, Pakistan",
+        details: "Chemical Engineer serving as Junior Manager – Production (Powder Technology) at Futehally Chemicals Pvt. Ltd. (Unilever third-party). I lead a 40-member team, manage end-to-end shift operations, and optimize production efficiency through resource management and SOP implementation. Key achievements include commissioning a high-capacity biomass furnace, drafting critical operating procedures, and reducing biomass fuel consumption by 15%, resulting in cost savings and sustainable operations. Skilled in DCS operations, process optimization, and cross-functional collaboration."
+      },
+      {
+        company: "Gamalux Olechemicals Pvt. Ltd",
+        role: "Production Officer (Fatty Acid Production)",
+        when: "August 2022 — July 2023",
+        location: "Karachi, Pakistan",
+        details: "Oversee end-to-end shift operations to meet production targets in both quality and quantity, while maintaining accurate records and workforce management. Ensure strict process control through timely reporting, equipment monitoring, and adherence to SOPs. Collaborate with quality teams to resolve non-conformances, maintain equipment performance, and enforce safety standards, including PPE usage and EHS training. Drive continuous process improvement through analytical problem-solving and technological innovation."
+      },
+      {
+        company: "Zishan Engineers Pvt Ltd",
+        role: "Process Design Engineering Intern",
+        when: "April 2022 — May 2023",
+        location: "Karachi, Pakistan",
+        details: "Completed a one-month Process Design internship at Zishan Engineers Pvt. Ltd., gaining hands-on exposure to applying chemical engineering theory in real-world projects. Developed skills in piping and hydraulics, process simulation with Aspen HYSYS, and design calculations for oil & gas equipment. Explored green energy solutions and carbon capture technologies while strengthening research and analytical abilities under the mentorship of senior engineers."
+      }
+    ];
+
+    // ===== 2) SKILLS: percentage indicates proficiency =====
+    const skillsData = [
+      { name: "Process Simulation", pct: 85 },
+      { name: "Process Safety", pct: 78 },
+      { name: "Python (data)", pct: 80 },
+      { name: "Data Visualization", pct: 72 },
+      { name: "Aspen / Sim", pct: 70 },
+      { name: "Project Management", pct: 65 }
+    ];
+
+    // ===== 3) PROJECTS: add projects here =====
+    const projectsData = [
+      {
+        title: "Final Year Project",
+        short: "Comparison Of Co-Pyrolytic and Pyrolytic Product Blends obtained from Waste Cooking & Lubricating Oil.",
+        details: "<p>Conducted a comprehensive study on biofuel production from waste lubricating and cooking oils through co-pyrolysis and pyrolysis. Evaluated fuel properties and yields across temperature ranges, achieving 95% compliance with ASTM and OGRA standards, demonstrating the viability of blended biofuels as a sustainable energy source.</p>",
+        link: "#"
+
+      },
+      {
+        title: "Storage Tanks Mangement Dashboard",
+        short: "An interactive dashboard using MS excel that keeps us updated about storage.",
+        details: "<p>At my first role in production, I independently developed an Excel-based Tank Storage Manager dashboard to track over 15 storage tanks with data refreshed every four hours. This tool streamlined 12- and 24-hour production calculations, improved inventory accuracy, prevented spillage, minimized pump downtime, and extended pump life by reducing empty-running incidents.</p><p><strong>Skills:</strong> MS Office, Logical equations, pumps dynamics</p>",
+        link: "https://www.linkedin.com/posts/umair123_working-in-the-production-department-and-activity-7003362939671867392-hyLq?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC5esK4BTXCdz3u9bgkIPquXp7Z-28_E8NU"
+      }
+      
+    ];
+
+    /********************************************************
+     * END EDITABLE BLOCKS
+     ********************************************************/
+
+    // ===== Helpers: populate experience timeline =====
+    const timelineEl = document.querySelector('.timeline');
+    function renderExperience(){
+      timelineEl.innerHTML = '';
+      experienceData.forEach((it, idx) => {
+        const div = document.createElement('div');
+        div.className = 'timeline-item';
+        div.innerHTML = `
+          <div class="timeline-year">${it.when.split('—')[0].trim()}</div>
+          <div class="timeline-body">
+            <h4>${it.role} <span style="font-weight:500;color:var(--muted);"> @ ${it.company}</span></h4>
+            <p class="small-muted">${it.location}</p>
+            <p class="small-muted" style="margin-top:6px;">${it.details.slice(0,180)} <a href="#" data-idx="${idx}" onclick="expandExperience(event,this)">Read more</a></p>
+          </div>
+        `;
+        timelineEl.appendChild(div);
+      });
+    }
+
+    // Expand experience -> opens modal with full details
+    function expandExperience(ev, el){
+      ev.preventDefault();
+      const idx = Number(el.dataset.idx);
+      const it = experienceData[idx];
+      openModal(`<h3>${it.role} — ${it.company}</h3><p><em>${it.when} · ${it.location}</em></p><div style="margin-top:12px;">${it.details}</div>`);
+    }
+
+    // ===== Render skills as circular progress rings =====
+    const skillsGrid = document.querySelector('.skills-grid');
+    function renderSkills(){
+      skillsGrid.innerHTML = '';
+      skillsData.forEach((s, i) => {
+        const id = 'skill-svg-' + i;
+        const card = document.createElement('div');
+        card.className = 'skill';
+        card.innerHTML = `
+          <svg viewBox="0 0 36 36" id="${id}">
+            <path d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"></path>
+            <path class="meter" stroke-linecap="round" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" fill="none" stroke-width="3"></path>
+            <text x="18" y="21" font-size="7" text-anchor="middle" fill="var(--text)">${s.pct}%</text>
+          </svg>
+          <strong>${s.name}</strong>
+        `;
+        skillsGrid.appendChild(card);
+
+        // Animate meter stroke
+        const meter = card.querySelector('.meter');
+        const pct = s.pct / 100;
+        // Circle length = circumference ≈ 100.53 for r=16; use strokeDasharray trick
+        const circumference = 100;
+        meter.style.stroke = 'url(#gProgress)'; // gradient transient (if not supported stays default)
+        meter.style.strokeDasharray = circumference;
+        meter.style.strokeDashoffset = circumference * (1 - pct);
+        meter.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.2,.9,.2,1)';
+      });
+    }
+
+    // ===== Projects grid & modal =====
+    const projectsGrid = document.querySelector('.projects-grid');
+
+    function renderProjects(){
+      projectsGrid.innerHTML = '';
+      projectsData.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <h4>${p.title}</h4>
+          <p class="small-muted">${p.short}</p>
+          <div style="margin-top:8px; display:flex; gap:8px;">
+            <button style="padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02);color:var(--text);" onclick="openProject(${idx})">Details</button>
+            <a href="${p.link}" style="padding:8px 10px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#041023;text-decoration:none;font-weight:700">Open</a>
+          </div>
+        `;
+        projectsGrid.appendChild(card);
+      });
+    }
+
+    function openProject(idx){
+      const p = projectsData[idx];
+      openModal(`<h3>${p.title}</h3><div class="small-muted" style="margin-top:6px;">${p.short}</div><div style="margin-top:12px;">${p.details}</div><div style="margin-top:12px;"><a href="${p.link}" target="_blank" class="cta">Open Project</a></div>`);
+    }
+
+    // ===== Modal helpers =====
+    const modal = document.getElementById('projectModal');
+    const modalContent = document.getElementById('modalContent');
+    function openModal(html){
+      modalContent.innerHTML = html;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+    modal.addEventListener('click', (ev) => {
+      if(ev.target === modal) closeModal();
+    });
+
+    // ===== Contact form handling (simple mailto fallback) =====
+    function handleContact(ev){
+      ev.preventDefault();
+      const form = ev.target;
+      const data = new FormData(form);
+      const name = data.get('name');
+      const email = data.get('email');
+      const message = data.get('message');
+      const subject = encodeURIComponent(`Website contact from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      // mailto fallback (opens user's email client)
+      window.location.href = `mailto:muhammad.umairkhalid@outlook.com?subject=${subject}&body=${body}`;
+      document.getElementById('contactResult').textContent = 'Opening email client...';
+    }
+
+    // ===== Scroll progress indicator =====
+    const progressActive = document.getElementById('progressPathActive');
+    function updateProgress(){
+      const h = document.documentElement;
+      const scroll = (h.scrollTop || document.body.scrollTop) / (h.scrollHeight - h.clientHeight);
+      const pct = Math.min(1, Math.max(0, scroll));
+      // stroke dash offset using circumference approximated to 100
+        const circumference = 100; // match skill rings
+  progressActive.style.strokeDasharray = circumference;
+  progressActive.style.strokeDashoffset = circumference * (1 - pct);
+
+}
+    window.addEventListener('scroll', updateProgress);
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+
+    // ===== Navigation highlight helper =====
+    function navHighlight(ev, id){
+      ev?.preventDefault();
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      // highlight menu link
+      document.querySelectorAll('nav.mainnav a').forEach(a => a.classList.remove('active'));
+      const link = document.querySelector(`nav.mainnav a[data-section="${id}"]`);
+      if(link) link.classList.add('active');
+    }
+
+    // highlight on scroll using IntersectionObserver
+    const sections = ['home','about','experience','skills','projects','contact'];
+    const observers = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          document.querySelectorAll('nav.mainnav a').forEach(a=>a.classList.remove('active'));
+          const sel = `nav.mainnav a[data-section="${entry.target.id}"]`;
+          const a = document.querySelector(sel);
+          if(a) a.classList.add('active');
+        }
+      });
+    }, { root: null, threshold: 0.45 });
+
+    sections.forEach(s => {
+      const el = document.getElementById(s);
+      if(el) observers.observe(el);
+    });
+
+    // ===== Molecule canvas animation (interactive) =====
+    // Simple particle system representing molecules. Click to add particles.
+    (function moleculeCanvas(){
+      const cvs = document.getElementById('molecules');
+      const ctx = cvs.getContext('2d');
+      let w=0,h=0, dpi = window.devicePixelRatio || 1;
+      let particles = [];
+      function resize(){
+        w = cvs.clientWidth; h = cvs.clientHeight;
+        cvs.width = Math.floor(w * dpi);
+        cvs.height = Math.floor(h * dpi);
+        ctx.scale(dpi,dpi);
+      }
+      function random(min,max){ return Math.random()*(max-min)+min; }
+      function createParticle(x,y){
+        return {
+          x:x || random(40,w-40),
+          y:y || random(40,h-40),
+          vx: random(-0.6,0.6),
+          vy: random(-0.6,0.6),
+          r: random(2.5,6.5),
+          color: Math.random()>0.5 ? '#7ee7ff' : '#caa2ff',
+          life: 400 + random(-120,120)
+        };
+      }
+      for(let i=0;i<45;i++) particles.push(createParticle());
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        // draw connections
+        for(let a=0;a<particles.length;a++){
+          const p = particles[a];
+          for(let b=a+1;b<particles.length;b++){
+            const q = particles[b];
+            const dx = p.x-q.x, dy = p.y-q.y;
+            const d = Math.sqrt(dx*dx+dy*dy);
+            if(d < 90){
+              ctx.beginPath();
+              ctx.moveTo(p.x,p.y);
+              ctx.lineTo(q.x,q.y);
+              ctx.strokeStyle = 'rgba(120,160,200,' + (0.12 - d/1000) + ')';
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+        // update + draw
+        particles.forEach((p,i)=>{
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= 0.999; p.vy *= 0.999;
+          // bounce edges
+          if(p.x < 8 || p.x > w-8) p.vx *= -1;
+          if(p.y < 8 || p.y > h-8) p.vy *= -1;
+          p.life--;
+          // draw circle
+          ctx.beginPath();
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = Math.max(0.6, Math.min(1, p.life/500));
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        window.requestAnimationFrame(step);
+      }
+      // clicks add burst
+      cvs.addEventListener('click', (ev) => {
+        const rect = cvs.getBoundingClientRect();
+        const x = (ev.clientX - rect.left);
+        const y = (ev.clientY - rect.top);
+        for(let i=0;i<10;i++){
+          const p = createParticle(x + random(-10,10), y + random(-10,10));
+          p.vx = random(-2,2); p.vy = random(-2,2);
+          particles.push(p);
+        }
+        // limit count
+        if(particles.length > 160) particles = particles.slice(particles.length-160);
+      });
+
+      // init + resize
+      window.addEventListener('resize', resize);
+      resize();
+      step();
+    })();
+
+    // ===== On load: render sections =====
+    document.addEventListener('DOMContentLoaded', ()=>{
+      renderExperience();
+      renderSkills();
+      renderProjects();
+      document.getElementById('year').textContent = (new Date()).getFullYear();
+
+      // Smooth reveal animation via intersection observer
+      const reveal = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.style.transition = 'opacity 700ms ease, transform 700ms ease';
+            e.target.style.opacity = 1;
+            e.target.style.transform = 'translateY(0)';
+          } else {
+            e.target.style.opacity = 0;
+            e.target.style.transform = 'translateY(14px)';
+          }
+        });
+      }, {threshold: 0.12});
+
+      document.querySelectorAll('.panel').forEach(p => { p.style.opacity = 0; p.style.transform = 'translateY(14px)'; reveal.observe(p); });
+    });
+
+    // small accessibility: keyboard ESC closes modal
+    document.addEventListener('keydown', (ev) => {
+      if(ev.key === 'Escape') closeModal();
+    });
+
+    // ===== Utility: place your LinkedIn URL into #linkedin-link anchor via JS or edit directly in HTML above =====
+    // Example: document.getElementById('linkedin-link').href = 'https://www.linkedin.com/in/your-profile/';
+    // (Edit the link manually in the About section or uncomment and edit below)
+    // document.getElementById('linkedin-link').href = 'https://www.linkedin.com/in/umair123';
+
+  </script>
+</body>
+</html>
