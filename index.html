@@ -118,6 +118,13 @@
     .timeline-year{ min-width:84px; text-align:center; color:var(--muted); font-weight:700; }
     .timeline-body h4{ margin:0; font-size:15px; }
     .timeline-body p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
+     
+   /* --- Education timeline --- */
+    .timeline{ display:flex; flex-direction:column; gap:14px; }
+    .timeline-item{ display:flex; gap:14px; align-items:flex-start; padding:12px; border-radius:12px; background:var(--glass-2); border:1px solid rgba(255,255,255,0.02); }
+    .timeline-year{ min-width:84px; text-align:center; color:var(--muted); font-weight:700; }
+    .timeline-body h4{ margin:0; font-size:15px; }
+    .timeline-body p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
 
     /* --- Skills (circular meters) --- */
     .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
@@ -157,12 +164,166 @@
     /* scroll progress indicator */
     .progress-wrap { position:fixed; right:14px; bottom:14px; width:46px; height:46px; border-radius:50%; display:grid; place-items:center; z-index:1200; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
     .progress-wrap svg{ width:36px; height:36px; transform:rotate(-90deg); }
+
+    /* --- Mobile Navigation --- */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 8px;
+  background: transparent;
+  border: none;
+}
+
+.mobile-menu-btn span {
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Desktop layout: Brand → Navigation → Hire Me (extreme right) */
+@media (min-width: 769px) {
+  .brand {
+    order: 1;
+  }
+  
+  nav.mainnav {
+    order: 2;
+  }
+  
+  .hire-btn {
+    order: 3;
+  }
+  
+  .mobile-menu-btn {
+    display: none;
+  }
+}
+
+/* Mobile responsive navigation: Logo → Hire Me → Hamburger */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+    order: 3; /* Hamburger on extreme right */
+  }
+  
+  header.topbar {
+    padding: 0 15px;
+  }
+  
+  .brand {
+    order: 1; /* Logo first */
+  }
+  
+  .hire-btn {
+    order: 2; /* Hire me second */
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  nav.mainnav {
+    order: 4; /* Navigation slides down */
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(6,6,10,0.95), rgba(6,6,10,0.90));
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    gap: 0;
+    padding: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  
+  nav.mainnav.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  nav.mainnav a {
+    padding: 15px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 5px 0;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.02);
+  }
+  
+  nav.mainnav a:hover,
+  nav.mainnav a.active {
+    background: var(--glass);
+    border-color: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+  }
+  
+  /* Adjust hero section for mobile */
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  .hero-left {
+    order: 2;
+  }
+  
+  .visual-wrap {
+    order: 1;
+    width: 100%;
+    height: 1000px;
+    margin-bottom: 20px;
+  }
+  
+  /* Adjust other mobile styles */
+  main.container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .brand {
+    gap: 8px;
+  }
+  
+  .brand .logo {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
   </style>
 </head>
 <body>
 
+   
   <!-- ===== HEADER / NAVBAR ===== -->
   <header class="topbar" role="banner" aria-label="Top navigation">
+ <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <a href="#home" class="brand" onclick="navHighlight(event,'home')">
       <div class="logo">MU</div>
       <div style="line-height:1">
@@ -175,6 +336,7 @@
       <a href="#home" data-section="home" onclick="navHighlight(event,'home')">Home</a>
       <a href="#about" data-section="about" onclick="navHighlight(event,'about')">About</a>
       <a href="#experience" data-section="experience" onclick="navHighlight(event,'experience')">Work Experience</a>
+      <a href="#experience" data-section="education" onclick="navHighlight(event,'experience')">Education</a>
       <a href="#skills" data-section="skills" onclick="navHighlight(event,'skills')">Skills</a>
       <a href="#projects" data-section="projects" onclick="navHighlight(event,'projects')">Projects</a>
       <a href="#contact" data-section="contact" onclick="navHighlight(event,'contact')">Contact</a>
@@ -231,7 +393,7 @@
     <source src="intro.mp4" type="video/mp4"/>
     Your browser does not support the video tag.
   </video>
-</div>s          
+</div>          
           </div>
         </div>
       </div>
@@ -315,6 +477,29 @@
       </div>
     </section>
 
+	<!-- ================= Education (Interactive timeline) ================= -->
+    <!-- ===== EDUCATION SECTION ===== -->
+<section id="education" class="section timeline">
+  <h2 class="section-title">Education</h2>
+
+  <div class="timeline-item">
+    <div class="timeline-year">2018 – 2022</div>
+    <div class="timeline-body">
+      <h4>B.E Chmemical Engineering 
+        <span style="font-weight:500;color:var(--muted);">@ NED University of Engineering & Technology, Karachi</span>
+      </h4>
+      <p class="small-muted">Karachi, Pakistan</p>
+      <p class="small-muted" style="margin-top:6px;">
+        Graduated with focus on Process Design, Thermodynamics, and Mass Transfer Operations. 
+        <a href="#" data-idx="0" onclick="expandEducation(event,this)">Read more</a>
+      </p>
+    </div>
+  </div>
+
+</section>
+
+
+
     <!-- ================= SKILLS (Animated rings) ================= -->
     <section id="skills" class="panel" aria-label="Skills">
       <h2>Skills</h2>
@@ -367,7 +552,7 @@
         </div>
       </div>
     </section>
-ssss
+
     <!-- Footer -->
     <footer class="sitefoot">
       © <span id="year"></span> Muhammad Umair Khalid
@@ -410,25 +595,27 @@ ssss
       {
         company: "Futehally Chemical Pvt. Ltd.",
         role: "Junior Manager (Powder Production Technology)",
-        when: "July 2023 — September 2023",
+        when: "JUL 2023-Present",
         location: "Karachi, Pakistan",
         details: "Chemical Engineer serving as Junior Manager – Production (Powder Technology) at Futehally Chemicals Pvt. Ltd. (Unilever third-party). I lead a 40-member team, manage end-to-end shift operations, and optimize production efficiency through resource management and SOP implementation. Key achievements include commissioning a high-capacity biomass furnace, drafting critical operating procedures, and reducing biomass fuel consumption by 15%, resulting in cost savings and sustainable operations. Skilled in DCS operations, process optimization, and cross-functional collaboration."
       },
       {
         company: "Gamalux Olechemicals Pvt. Ltd",
         role: "Production Officer (Fatty Acid Production)",
-        when: "August 2022 — July 2023",
+        when: "AUG 2022-Jul 2023",
         location: "Karachi, Pakistan",
         details: "Oversee end-to-end shift operations to meet production targets in both quality and quantity, while maintaining accurate records and workforce management. Ensure strict process control through timely reporting, equipment monitoring, and adherence to SOPs. Collaborate with quality teams to resolve non-conformances, maintain equipment performance, and enforce safety standards, including PPE usage and EHS training. Drive continuous process improvement through analytical problem-solving and technological innovation."
       },
       {
         company: "Zishan Engineers Pvt Ltd",
         role: "Process Design Engineering Intern",
-        when: "April 2022 — May 2023",
+        when: "APR 2022-May 2023",
         location: "Karachi, Pakistan",
         details: "Completed a one-month Process Design internship at Zishan Engineers Pvt. Ltd., gaining hands-on exposure to applying chemical engineering theory in real-world projects. Developed skills in piping and hydraulics, process simulation with Aspen HYSYS, and design calculations for oil & gas equipment. Explored green energy solutions and carbon capture technologies while strengthening research and analytical abilities under the mentorship of senior engineers."
       }
     ];
+
+
 
     // ===== 2) SKILLS: percentage indicates proficiency =====
     const skillsData = [
@@ -480,6 +667,25 @@ ssss
         timelineEl.appendChild(div);
       });
     }
+// Expand education -> opens modal with full details
+function expandEducation(ev, el){
+  ev.preventDefault();
+  const idx = Number(el.dataset.idx);
+  const it = educationData[idx];
+  openModal(`<h3>${it.degree} — ${it.institution}</h3><p><em>${it.when} · ${it.location}</em></p><div style="margin-top:12px;">${it.details}</div>`);
+}
+
+// Education data
+const educationData = [
+  {
+    degree: "B.E Chemical Engineering",
+    institution: "NED University of Engineering & Technology, Karachi",
+    when: "2018 – 2022",
+    location: "Karachi, Pakistan",
+    details: "Activities and societies: General Secretary at American Institute for Chemical Engineers (AIChE) NEDUET Student Chapter.<br><b>Major Courses</b><br>Chemical Engineering Thermodynamics,<br>Fluid Mechanics, <br>Chemical Process Control, <br>Chemical Process Optimization, <br>Heat Transfer, <br>Mass Transfer, <br>Chemical Reaction Engineering, <br>Transport Phenomena, <br>Petroleum Refineries and PetroChemicals, <br>Environmental Pollution Control, <br>Industrial Safety, <br>Gas Engineering."
+  },
+ 
+];
 
     // Expand experience -> opens modal with full details
     function expandExperience(ev, el){
@@ -488,6 +694,17 @@ ssss
       const it = experienceData[idx];
       openModal(`<h3>${it.role} — ${it.company}</h3><p><em>${it.when} · ${it.location}</em></p><div style="margin-top:12px;">${it.details}</div>`);
     }
+function expandEducation(ev, el){
+  ev.preventDefault();
+  const idx = Number(el.dataset.idx);
+  const ed = educationData[idx];
+  openModal(`
+    <h3>${ed.degree}</h3>
+    <p><em>${ed.institution}</em></p>
+    <p><strong>${ed.when}</strong></p>
+    <div style="margin-top:12px;">${ed.details}</div>
+  `);
+}
 
     // ===== Render skills as circular progress rings =====
     const skillsGrid = document.querySelector('.skills-grid');
@@ -603,7 +820,7 @@ ssss
     }
 
     // highlight on scroll using IntersectionObserver
-    const sections = ['home','about','experience','skills','projects','contact'];
+    const sections = ['home','about','experience','education','skills','projects','contact'];
     const observers = new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
         if(entry.isIntersecting){
@@ -732,6 +949,46 @@ ssss
     document.addEventListener('keydown', (ev) => {
       if(ev.key === 'Escape') closeModal();
     });
+
+    // ===== Mobile Menu Toggle =====
+  document.addEventListener('DOMContentLoaded', () => {
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mainNav = document.querySelector('nav.mainnav');
+  const navLinks = document.querySelectorAll('nav.mainnav a');
+
+  if (mobileMenuBtn && mainNav) {
+    // Toggle mobile menu
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenuBtn.classList.toggle('active');
+      mainNav.classList.toggle('mobile-open');
+    });
+
+    // Close mobile menu when clicking nav links
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuBtn.classList.remove('active');
+        mainNav.classList.remove('mobile-open');
+      });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuBtn.contains(e.target) && !mainNav.contains(e.target)) {
+        mobileMenuBtn.classList.remove('active');
+        mainNav.classList.remove('mobile-open');
+      }
+    });
+
+    // Close mobile menu on window resize if screen becomes larger
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        mobileMenuBtn.classList.remove('active');
+        mainNav.classList.remove('mobile-open');
+      }
+    });
+  }
+});
+
 
     // ===== Utility: place your LinkedIn URL into #linkedin-link anchor via JS or edit directly in HTML above =====
     // Example: document.getElementById('linkedin-link').href = 'https://www.linkedin.com/in/your-profile/';
