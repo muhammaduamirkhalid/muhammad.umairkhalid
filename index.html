@@ -126,10 +126,18 @@
     .timeline-body h4{ margin:0; font-size:15px; }
     .timeline-body p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
 
+   /* --- Certification timeline --- */
+    .timeline{ display:flex; flex-direction:column; gap:14px; }
+    .timeline-item{ display:flex; gap:14px; align-items:flex-start; padding:12px; border-radius:12px; background:var(--glass-2); border:1px solid rgba(255,255,255,0.02); }
+    .timeline-year{ min-width:84px; text-align:center; color:var(--muted); font-weight:700; }
+    .timeline-body h4{ margin:0; font-size:15px; }
+    .timeline-body p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
+     
+
     /* --- Skills (circular meters) --- */
     .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
     .skill{ display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center; padding:16px; border-radius:12px; background:var(--glass); border:1px solid rgba(255,255,255,0.02); }
-    .skill svg{ width:110px; height:110px; transform:rotate(-90deg); }
+    .skill svg{ width:110px; height:110px; transform:rotate(0deg); }
     .skill strong{ font-size:14px; display:block; margin-top:6px; }
 
     /* --- Projects grid --- */
@@ -337,6 +345,7 @@
       <a href="#about" data-section="about" onclick="navHighlight(event,'about')">About</a>
       <a href="#experience" data-section="experience" onclick="navHighlight(event,'experience')">Work Experience</a>
       <a href="#experience" data-section="education" onclick="navHighlight(event,'experience')">Education</a>
+      <a href="#certifications" data-section="certifications" onclick="navHighlight(event,'certifications')">Certifications</a>
       <a href="#skills" data-section="skills" onclick="navHighlight(event,'skills')">Skills</a>
       <a href="#projects" data-section="projects" onclick="navHighlight(event,'projects')">Projects</a>
       <a href="#contact" data-section="contact" onclick="navHighlight(event,'contact')">Contact</a>
@@ -344,7 +353,24 @@
 
     <!-- Hire Me button: EDIT EMAIL if needed -->
     <a class="hire-btn" href="mailto:muhammad.umairkhalid@outlook.com?subject=Opportunity%20to%20Hire%20You" title="Hire Me via email">
-      ✉️ Hire Me
+      <svg xmlns="http://www.w3.org/2000/svg"
+     width="18" height="18"
+     viewBox="0 0 24 24"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="1.7"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     style="margin-right:8px; vertical-align:middle;">
+
+  <!-- message container -->
+  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+
+  <!-- mail fold -->
+  <path d="M7 9l5 3 5-3"/>
+
+</svg>
+ Hire Me
     </a>
   </header>
 
@@ -368,10 +394,10 @@
             <a class="secondary" href="#contact" onclick="navHighlight(event,'contact')">Get in touch</a>
           </div>
 
-          <!-- Quick highlights -->
+          <!-- Quick highlights (year Edit) --> 
           <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
             <div style="background:var(--glass); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
-              <div style="font-weight:700">3+ yrs</div>
+              <div style="font-weight:700">4 yrs</div>
               <div class="small-muted">Production experience</div>
             </div>
             <div style="background:var(--glass); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
@@ -413,13 +439,13 @@
               -->
               <p id="linkedin-summary">
                 <!-- Placeholder summary - EDIT this block -->
-                Chemical Engineer with nearly 3+ years of production and process design experience in the chemical manufacturing sector. Currently Junior Manager – Production at Futehally Chemicals (Unilever third-party), I lead a 40-member team, optimize powder technology operations, and drive cost-saving initiatives through process innovation and resource efficiency. Skilled in process optimization, DCS operations, and SOP development, with a proven record of commissioning new equipment and improving productivity.
+                Chemical Engineer with nearly 4 years of production and process design experience in the chemical manufacturing sector. Currently Junior Manager – Production at Futehally Chemicals (Unilever third-party), I lead a 40-member team, optimize powder technology operations, and drive cost-saving initiatives through process innovation and resource efficiency. Skilled in process optimization, DCS operations, and SOP development, with a proven record of commissioning new equipment and improving productivity.
               </p>
 
-              <!-- CONTACT & QUICK STATS -->
+              <!-- CONTACT & QUICK STATS (Years Edit)-->
               <div class="meta-row" style="margin-top:12px;">
                 <div><strong>Location</strong><div class="small-muted">Karachi, Pakistan</div></div>
-                <div><strong>Experience</strong><div class="small-muted">~3 years</div></div>
+                <div><strong>Experience</strong><div class="small-muted">~4 years</div></div>
                 <div><strong>Availability</strong><div class="small-muted">Open to work</div></div>
               </div>
 
@@ -456,7 +482,10 @@
                   <div style="font-weight:700">Quality Control</div>
                 </div>
               </div>
-              <a class="cta" href="#contact" onclick="navHighlight(event,'contact')" style="display:inline-block; margin-top:10px;">Contact</a>
+              <a class="cta" href="#contact" onclick="navHighlight(event,'contact')" style="display:inline-block; margin-top:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px;">
+  <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+</svg>
+Contact</a>
             </div>
           </div>
 
@@ -497,6 +526,20 @@
   </div>
 
 </section>
+
+<!-- ================= CERTIFICATIONS ================= -->
+<section id="certifications" class="panel" aria-label="Certifications">
+  <div>
+    <h2>Certifications</h2>
+    <p class="small-muted">Professional certifications & credentials</p>
+
+    <!-- IMPORTANT: unique timeline container -->
+    <div class="timeline certification-timeline" style="margin-top:14px;">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -541,12 +584,15 @@
         </div>
 
         <div>
-          <form id="contactForm" class="contact-form" onsubmit="handleContact(event)">
-            <input class="input" name="name" placeholder="Your name" required />
-            <input class="input" name="email" placeholder="Your email" required />
-            <textarea class="input" name="message" rows="6" placeholder="Brief message..." required></textarea>
+          <form id="contactForm" class="contact-form">
+            <input class="input" id="name" placeholder="Your name" required />
+            <input class="input" id="email" placeholder="Your email" required />
+            <textarea class="input" id="message" rows="6" placeholder="Brief message..." required></textarea>
             <!-- NOTE: This uses a mailto fallback. For production use Formspree/Getform or a server endpoint. -->
-            <button type="submit" class="send-btn">Send message</button>
+            <button type="submit" class="send-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px;">
+  <path d="M20.52 3.48A11.82 11.82 0 0012.05 0C5.5 0 .21 5.3.21 11.84c0 2.08.54 4.12 1.57 5.92L0 24l6.39-1.67a11.84 11.84 0 005.66 1.44h.01c6.54 0 11.84-5.3 11.84-11.84 0-3.16-1.23-6.13-3.48-8.45zM12.06 21.6a9.67 9.67 0 01-4.93-1.36l-.35-.2-3.79.99 1.01-3.69-.23-.38a9.66 9.66 0 01-1.49-5.13c0-5.34 4.35-9.69 9.7-9.69a9.65 9.65 0 019.68 9.69c0 5.34-4.34 9.69-9.6 9.69zm5.32-7.27c-.29-.15-1.71-.84-1.98-.93-.27-.1-.46-.15-.65.15-.19.29-.75.93-.92 1.12-.17.2-.34.22-.63.07-.29-.15-1.21-.45-2.3-1.43-.85-.76-1.43-1.7-1.6-1.99-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.65-1.56-.89-2.13-.23-.56-.47-.48-.65-.49h-.56c-.2 0-.52.07-.79.37-.27.29-1.04 1.01-1.04 2.46s1.06 2.85 1.21 3.05c.15.2 2.09 3.2 5.07 4.49.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.71-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.34z"/>
+</svg>
+ Whatsapp</button>
             <div id="contactResult" class="small-muted" style="margin-top:8px;"></div>
           </form>
         </div>
@@ -615,6 +661,36 @@
       }
     ];
 
+const certificationData = [
+  {
+    title: "Lean Six Sigma White Belt",
+    issuer: "The Council for Six Sigma Certification",
+    when: "2026",
+    location: "Online",
+    details: "This milestone has enhanced my foundation in Lean thinking, problem-solving, and process improvement methodologies—skills that are critical in today’s production and quality-driven environments.",
+    link: "https://certification.sixsigmacouncil.org/grade/report/overview/index.php"
+  },
+{
+    title: "Introduction to Data Analysis using Microsoft Excel",
+    issuer: "Coursera",
+    when: "2026",
+    location: "Online",
+    details: "This certification has enhnaced my foundation in critical data extraction for the data analysis using available tools in MS Excel so decisions can be made on technical grounds.",
+    link: "https://www.coursera.org/account/accomplishments/verify/XXUHROA22FFP"
+
+  },
+{
+    title: "The COSHH Risk Assessor Certification™",
+    issuer: "The Knights of Safety™ Academy",
+    when: "2023",
+    location: "Online",
+    details: "This certification enhanced my understanding for safety protocol in work place and what role Personal Protective Equipments (PPEs) and other safety documents can play in keeping you and your team safe.",
+    link: "https://academy.theknightsofsafety.com/certificates/qk0ll6bs2u"
+
+  },
+];
+
+
 
 
     // ===== 2) SKILLS: percentage indicates proficiency =====
@@ -667,6 +743,63 @@
         timelineEl.appendChild(div);
       });
     }
+
+const certificationTimelineEl = document.querySelector('.certification-timeline');
+
+function renderCertifications(){
+  certificationTimelineEl.innerHTML = '';
+
+  certificationData.forEach((it, idx) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-item';
+
+    div.innerHTML = `
+      <div class="timeline-year">${it.when}</div>
+      <div class="timeline-body">
+        <h4>${it.title}
+          <span style="font-weight:500;color:var(--muted);">
+            @ ${it.issuer}
+          </span>
+        </h4>
+        <p class="small-muted">${it.location}</p>
+        <p class="small-muted" style="margin-top:6px;">
+          ${it.details.slice(0,160)}
+          <a href="#" data-idx="${idx}" onclick="expandCertification(event,this)">Read more</a>
+        </p>
+        <div style="margin-top:8px;">         
+  <a href="${it.link}" target="_blank" class="cta">
+   <svg xmlns="http://www.w3.org/2000/svg"
+     width="18" height="18"
+     viewBox="0 0 24 24"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     style="margin-right:8px;">
+  <path d="M21.44 11.05l-8.49 8.49a5 5 0 01-7.07-7.07l9.19-9.19a3 3 0 014.24 4.24l-9.2 9.19a1 1 0 01-1.41-1.41l8.49-8.49"/>
+</svg>
+ View Credentials
+  </a>
+</div>
+      </div>
+    `;
+    certificationTimelineEl.appendChild(div);
+  });
+}
+
+function expandCertification(ev, el){
+  ev.preventDefault();
+  const idx = Number(el.dataset.idx);
+  const it = certificationData[idx];
+
+  openModal(`
+    <h3>${it.title}</h3>
+    <p><em>${it.issuer} · ${it.when}</em></p>
+    <div style="margin-top:12px;">${it.details}</div>
+  `);
+}
+
 // Expand education -> opens modal with full details
 function expandEducation(ev, el){
   ev.preventDefault();
@@ -820,7 +953,7 @@ function expandEducation(ev, el){
     }
 
     // highlight on scroll using IntersectionObserver
-    const sections = ['home','about','experience','education','skills','projects','contact'];
+    const sections = ['home','about','experience','education','certifications','skills','projects','contact'];
     const observers = new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
         if(entry.isIntersecting){
@@ -924,6 +1057,7 @@ function expandEducation(ev, el){
     // ===== On load: render sections =====
     document.addEventListener('DOMContentLoaded', ()=>{
       renderExperience();
+      renderCertifications();
       renderSkills();
       renderProjects();
       document.getElementById('year').textContent = (new Date()).getFullYear();
@@ -989,6 +1123,71 @@ function expandEducation(ev, el){
   }
 });
 
+// ===== CONTACT FORM -> WHATSAPP =====
+
+document.getElementById("contactForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+ 
+
+    // Get values
+
+    const name = document.getElementById("name").value.trim();
+
+    const email = document.getElementById("email").value.trim();
+
+    const message = document.getElementById("message").value.trim();
+
+ 
+
+    // Your WhatsApp number (CHANGE THIS)
+
+    const phoneNumber = "923159303925";
+
+ 
+
+    // Build message
+
+    const text =
+
+`Hello Muhammad Umair,
+
+ 
+
+You received a new website inquiry:
+
+ 
+
+Name: ${name}
+
+Email: ${email}
+
+ 
+
+Message:
+
+${message}`;
+
+ 
+
+    // Encode for URL
+
+    const encodedText = encodeURIComponent(text);
+
+ 
+
+    // WhatsApp link
+
+    const url = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+ 
+
+    // Open WhatsApp
+
+    window.open(url, "_blank");
+
+});
 
     // ===== Utility: place your LinkedIn URL into #linkedin-link anchor via JS or edit directly in HTML above =====
     // Example: document.getElementById('linkedin-link').href = 'https://www.linkedin.com/in/your-profile/';
